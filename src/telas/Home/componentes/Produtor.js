@@ -1,53 +1,65 @@
 import React, { useReducer, useMemo } from "react";
+import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
 
-import {Text, Image, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Estrelas from "../../../components/Estrelas";
 
-const distanciaemMetros = (distancia) => {
+const distanciaEmMetros = (distancia) => {
     return `${distancia}m`;
 }
 
-export default function Produtor({nome, imagem, distancia, estrelas}){
+export default function Produtor({ nome, imagem, distancia, estrelas }) {
     const [selecionado, inverterSelecionado] = useReducer(
-        (selecionado) => !selecionado, false
+        (selecionado) => !selecionado,
+        false
     );
 
-    const distanciaTexto = useMemo( 
-        () => distanciaemMetros(), [distancia]
+    const distanciaTexto = useMemo(
+        () => distanciaEmMetros(distancia), 
+        [distancia]
     );
-
 
     return <TouchableOpacity 
-                style={estilos.cartao}
-                onPress={inverterSelecionado}
-                >
-        <Image style={estilos.imagem} source={imagem} accessibilityLabel={nome} />
+            style={estilos.cartao}
+            onPress={inverterSelecionado}
+        >
+        <Image source={imagem} style={estilos.imagem} accessibilityLabel={nome} />
         <View style={estilos.informacoes}>
             <View>
-                <Text style={estilos.nome}>{nome}</Text>
-                <Estrelas quantidade={estrelas}
-                          editavel={selecionado}
-                          grande={selecionado}
+                <Text style={estilos.nome}>{ nome }</Text>
+                <Estrelas 
+                    quantidade={estrelas}
+                    editavel={selecionado}
+                    grande={selecionado}
                 />
             </View>
-            <Text style={estilos.distancia}>{distanciaTexto}</Text>
+            <Text style={estilos.distancia}>{ distanciaTexto }</Text>
         </View>
     </TouchableOpacity>
 }
 
-
 const estilos = StyleSheet.create({
     cartao: {
-        backgroundColor: "#F6F6F6",
+        backgroundColor: '#F6F6F6',
         marginVertical: 8,
-        marginHorizontal: 16, 
+        marginHorizontal: 16,
         borderRadius: 6,
-        flexDirection: 'row',
+        flexDirection: "row",
+
+        // Android
         elevation: 4,
+
+        // iOS
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
-    imagem : {
-        height: 48,
+    imagem: {
         width: 48,
+        height: 48,
         borderRadius: 6,
         marginVertical: 16,
         marginLeft: 16,
@@ -61,12 +73,12 @@ const estilos = StyleSheet.create({
         marginRight: 16,
     },
     nome: {
-        fontSize: 16,
-        lineHeight: 26,
+        fontSize: 14,
+        lineHeight: 22,
         fontWeight: 'bold',
     },
     distancia: {
         fontSize: 12,
-        lineHeight: 9,
-    }
-    });
+        lineHeight: 19,
+    },
+});
